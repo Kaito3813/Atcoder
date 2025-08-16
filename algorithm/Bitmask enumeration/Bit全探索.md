@@ -112,4 +112,43 @@ Yes
 - set や map で部分集合ごとの値を管理して重複を排除する
 
 ---
+### 6.1. __buitlin_popcount(bit)
+---
 
+
+整数 x の2進表現中の1の数を返す関数。
+
+- `x = 42`→2進数`101010`→`__builtin_popcount(x) = 3`
+
+- bit全探索で、部分集合のサイズを取得するのに便利
+
+---
+### 6.2. set/mapの利用法
+---
+
+**6.2.1 - 部分集合の和の種類を管理するパターン(set)**
+
+**用途**：生成した部分集合の総和や状態の重複をsetを用いて自動で除く
+
+```cpp
+#include<bit/stdc++.h>using namespace std;
+
+int main() {
+    vector<int> a = {1, 2, 3};
+    set<int> sums;
+
+    int n = a.size();
+    for(int bit = 0; bit < (1<<n); bit++) {
+        int sum = 0;
+        for(int i = 0; i < n; i++)
+            if(bit & (1<<i)) sum += a[i];
+        sums.insert(sum);
+    }
+
+    cout << "異なる和の個数: " << sums.size() << endl;
+}
+```
+---
+**6.2.2 - 部分集合ごとの出現回数を管理するパターン(map)**
+
+- **用途**：部分集合の和や状態ごとの情報を保持したい
